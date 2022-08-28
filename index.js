@@ -46,6 +46,9 @@ class Calculator {
         computation = prev * current
         break
       case '÷':
+        if (current === 0) {
+          this.currentOperandTextElement.style.color = 'red'
+        }
         computation = prev / current
         break
       default:
@@ -62,10 +65,13 @@ class Calculator {
     const decimalDigits = stringNumber.split('.')[1]
     let integerDisplay
     if (isNaN(integerDigits)) {
-      integerDisplay = ''
+      integerDisplay = '';
+    } else if (stringNumber === 'Infinity') {
+      integerDisplay = 'ERROR'
     } else {
-      integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-    }
+        integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0, 
+        })
+      }; 
     if (decimalDigits != null) {
       return `${integerDisplay}.${decimalDigits}`
     } else {
@@ -118,9 +124,11 @@ equalsButton.addEventListener('click', button => {
 allClearButton.addEventListener('click', button => {
   calculator.clear()
   calculator.updateDisplay()
+  calculator.currentOperandTextElement.style.color = '#DCDCDC'
 })
 
 deleteButton.addEventListener('click', button => {
   calculator.delete()
   calculator.updateDisplay()
+  calculator.currentOperandTextElement.style.color = '#DCDCDC'
 })
